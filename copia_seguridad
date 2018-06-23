@@ -1,0 +1,49 @@
+#!/bin/bash
+# Beatriz Parejo Ramos
+RutaOrigen=$1
+RutaDestino=$2
+Fecha=$( date +'%d_%m_%Y' )
+
+echo "-----------------------------------------------"
+echo "              COPIA DE SEGURIDAD"
+echo "-----------------------------------------------"
+
+
+function help
+{
+echo ""
+echo "                    HELP"
+echo ""
+echo ""
+echo "Este script sirve para realizar una copia de seguridad"
+echo ""
+echo "La sintaxis del comando es:"
+echo ""
+echo "copia_seguirad [-help] ruta_origen [ruta_destino]"
+echo ""
+echo "La ruta de origen es la ruta del directorio con los archivos que quieres copiar"
+echo "La ruta destino es donde quieres guardar la copia de seguridad"
+echo ""
+}
+
+if [ "$RutaOrigen" == "-help" ]; then
+help
+exit 0
+
+else
+
+if [[ -z $RutaOrigen ]] && [[ ! -d $RutaOrigen ]]; then
+echo "[ERROR] No existe la ruta de origen o el fichero"
+exit 1
+fi
+
+if [ ! -d $RutaDestino ]; then
+
+mkdir -p "$RutaDestino"
+fi
+
+tar -czvf "$RutaDestino"/"$Fecha"_backup.tar.gz "$RutaOrigen"
+
+
+fi
+
